@@ -1,3 +1,7 @@
+korobochkin_coppermine_gallery_parser:
+    resource: "@KorobochkinCoppermineGalleryParserBundle/Resources/config/routing.yml"
+    prefix:   /
+
 app:
     resource: "@AppBundle/Controller/"
     type:     annotation

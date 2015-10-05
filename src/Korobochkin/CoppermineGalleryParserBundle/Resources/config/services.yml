@@ -1,0 +1,4 @@
+services:
+#    korobochkin_coppermine_gallery_parser.example:
+#        class: Korobochkin\CoppermineGalleryParserBundle\Example
+#        arguments: [@service_id, "plain_value", %parameter%]

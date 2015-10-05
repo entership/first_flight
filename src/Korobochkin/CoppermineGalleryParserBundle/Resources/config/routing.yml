@@ -1,0 +1,3 @@
+korobochkin_coppermine_gallery_parser_homepage:
+    path:     /hello/{name}
+    defaults: { _controller: KorobochkinCoppermineGalleryParserBundle:Default:index }
