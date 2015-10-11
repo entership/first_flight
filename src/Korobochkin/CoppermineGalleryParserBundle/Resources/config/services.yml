@@ -2,3 +2,9 @@ services:
 #    korobochkin_coppermine_gallery_parser.example:
 #        class: Korobochkin\CoppermineGalleryParserBundle\Example
 #        arguments: [@service_id, "plain_value", %parameter%]
+  guzzle:
+    class: GuzzleHttp\Client
+
+  coppermine_parser.album_parser:
+    class: Korobochkin\CoppermineGalleryParserBundle\KorobochkinCoppermineGalleryParserBundle\Service\AlbumParser
+    arguments: [ @guzzle, @logger ]
