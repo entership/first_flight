@@ -6,5 +6,5 @@ services:
     class: GuzzleHttp\Client
 
   coppermine_parser.album_parser:
-    class: Korobochkin\CoppermineGalleryParserBundle\KorobochkinCoppermineGalleryParserBundle\Service\AlbumParser
+    class: Korobochkin\CoppermineGalleryParserBundle\Service\AlbumParser
     arguments: [ @guzzle, @logger ]
