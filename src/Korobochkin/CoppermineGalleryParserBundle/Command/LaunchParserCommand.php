@@ -16,7 +16,7 @@ class LaunchParserCommand extends ContainerAwareCommand {
         $this
             ->setName('coppermine_parser:album')
             ->setDescription('Grab photos from an album.')
-            ->setHelp('specify URL of an album and you are done.')
+            ->setHelp('Specify URL of an album and you are done.')
             ->addArgument(
                 'url',
                 InputArgument::REQUIRED,
