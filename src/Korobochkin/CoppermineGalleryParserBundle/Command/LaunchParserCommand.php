@@ -14,19 +14,19 @@ class LaunchParserCommand extends ContainerAwareCommand {
     public function configure()
     {
         $this
-            ->setName('coppermine_parser:album')
-            ->setDescription('Grab photos from an album.')
-            ->setHelp('Specify URL of an album and you are done.')
+            ->setName('coppermine_parser:parse')
+            ->setDescription('Grab photos from Coppermine gallery')
+            ->setHelp('Specify URL of an album and you are done')
             ->addArgument(
                 'url',
                 InputArgument::REQUIRED,
-                'Single album URL to parse.'
+                'URL to parse'
             );
     }
 
     public function execute(InputInterface $input, OutputInterface $output)
     {
-        $parser = $this->getContainer()->get('coppermine_parser.album_parser');
+        $parser = $this->getContainer()->get('coppermine_parser.parser');
         $parser->parse($input->getArgument('url'));
     }
 }
