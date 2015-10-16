@@ -5,6 +5,7 @@ use DOMElement;
 //use Etki\SranyParserBundle\Service\Parser\Selectors;
 //use Etki\SranyParserBundle\Service\Parser\Urls;
 use GuzzleHttp\Client;
+use Korobochkin\CoppermineGalleryParserBundle\Service\Parser\Selectors;
 use Monolog\Logger;
 use Symfony\Component\DomCrawler\Crawler;
 
@@ -20,6 +21,8 @@ class Parser {
 
     private $urlComponents;
 
+    private $albumPages;
+
     public function  __construct(Client $client, Logger $logger) {
         $this->logger = $logger;
         $this->guzzle = $client;
@@ -32,14 +35,14 @@ class Parser {
             return;
         }
 
-        if(empty($this->urlComponents['host']) || empty($this->urlComponents['schema'])) {
-            $this->logger->info('Can\'t resolve Host or Schema.');
+        if(empty($this->urlComponents['host']) || empty($this->urlComponents['scheme'])) {
+            $this->logger->info('Can\'t resolve Host or Scheme.');
             return;
         }
 
         $this->logger->info(
             'Resolve Host and Schema.',
-            ['host' => $this->urlComponents['host'], 'schema' => $this->urlComponents['schema']]
+            ['host' => $this->urlComponents['host'], 'schema' => $this->urlComponents['scheme']]
         );
 
         // TODO: Не опасно ли передавать сюда пользовательский ввод? Может нужно сделать экраницазацию?
@@ -58,8 +61,18 @@ class Parser {
 
         // А может мы должны просто попробовать запросить page=2, page=3... и если получаем 404, то все,
         // все страницы получили. Вместо того, чтобы выдерать из DOM ссылки.
-
-
+        // Правда 404 не гарант того, что страницы нет в реальном мире :) (возможно, сервер глюканет и т. п.)
+        // $pageLinks =
+        $this->albumPages = [];
+        $crawler
+            ->filter(Selectors::ALBUM_PAGINATION_NUMBER_LINKS)
+            ->each(
+                function($node, $i) {
+                    $albumPage = parse_url($node->attr('href'));
+                    parse_str($albumPage['query'], $albumPage);
+                    $this->albumPages[] = $albumPage['page'];
+                }
+            );
     }
 
     /**
