@@ -5,6 +5,6 @@ services:
   guzzle:
     class: GuzzleHttp\Client
 
-  coppermine_parser.parser:
+  coppermine_parser.run:
     class: Korobochkin\CoppermineGalleryParserBundle\Service\Parser
     arguments: [ @guzzle, @logger ]

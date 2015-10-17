@@ -6,8 +6,10 @@ use DOMElement;
 //use Etki\SranyParserBundle\Service\Parser\Urls;
 use GuzzleHttp\Client;
 use Korobochkin\CoppermineGalleryParserBundle\Service\Parser\Selectors;
+use Korobochkin\CoppermineGalleryParserBundle\Service\Parser\Urls;
 use Monolog\Logger;
 use Symfony\Component\DomCrawler\Crawler;
+use Symfony\Component\Validator\Constraints\Url;
 
 /**
  * Class AlbumParser
@@ -26,6 +28,26 @@ class Parser {
     public function  __construct(Client $client, Logger $logger) {
         $this->logger = $logger;
         $this->guzzle = $client;
+    }
+
+    public function run($url) {
+        // Выбрать нужную сущность
+        $this->urlComponents = parse_url($url);
+
+        if(!empty($this->urlComponents['path'])) {
+            //$pathLenght = strlen($this->urlComponents['path']);
+
+            if($this->checkPath(Urls::ALBUM)) {
+
+            }
+            elseif($this->checkPath(Urls::CATEGORY) && $this->checkQuery(Urls::CATEGORY_QUERY)) {
+                $this->logger->error('Categories unsupported right now.');
+            }
+            elseif($this->checkPath(Urls::GALLERY)) {
+                $this->logger->error('Galleries unsupported right now.');
+            }
+        }
+        $this->logger->error('Unknown URL received. Looks like it is not a Copppermine gallery (or unkown version of Coppermine gallery).');
     }
 
     public function parse($url) {
@@ -81,14 +103,14 @@ class Parser {
      *
      * @return bool
      */
-    public function checkPath() {
+    private function checkPath($pathToCheck) {
         // We have a path
         if(!empty($this->urlComponents['path'])) {
             $pathLenght = strlen($this->urlComponents['path']);
-            $albumLenght = strlen(Parser\Urls::ALBUM);
+            $pathToCheckLenght = strlen($pathToCheck);
 
             // If entered path smaller than album's URL
-            if($albumLenght > $pathLenght) {
+            if($pathToCheckLenght > $pathLenght) {
                 return false;
             }
 
@@ -97,9 +119,34 @@ class Parser {
             return !(bool)substr_compare(
                 $this->urlComponents['path'],
                 Parser\Urls::ALBUM,
-                $pathLenght - $albumLenght,
-                $albumLenght
+                $pathLenght - $pathToCheckLenght,
+                $pathToCheckLenght
             );
+        }
+        return false;
+    }
+
+    private function checkQuery($params) {
+        if(!empty($this->urlComponents['query'])) {
+            if(is_string($this->urlComponents['query'])) {
+                parse_str($this->urlComponents['query'], $this->urlComponents['query']);
+            }
+
+            if(is_array($this->urlComponents['query'])) {
+                foreach($params as $param) {
+                    if(!empty($this->urlComponents['query'][$param])) {
+                        continue;
+                    }
+                    else {
+                        return false;
+                    }
+                }
+                return true;
+            }
+            else {
+                $this->logger->error('Unknown variable type with query parameters.');
+                return false;
+            }
         }
         return false;
     }
