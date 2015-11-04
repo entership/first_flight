@@ -18,6 +18,7 @@ class AppKernel extends Kernel
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
             new AppBundle\AppBundle(),
             new Korobochkin\CoppermineGalleryParserBundle\KorobochkinCoppermineGalleryParserBundle(),
+            new Stringy\Stringy(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
