@@ -27,8 +27,13 @@ class Parser
 
     public function run($url)
     {
+        // TODO: Тут мы запускаем все из консоли, а что если надо будет из другого места?
         $url = parse_url($url);
+
         // Ищем тип страницы по $url
+        // TODO: Как тут правильно вызывать UrlChecker (не думаю, что new ClassName прям тут это клево)?
+        $urlChecker = new Parser\Utility\UrlChecker();
+        $urlType = $urlChecker->analyzeUrl($url);
 
         // Запуск specificParser с $url и типом
     }
