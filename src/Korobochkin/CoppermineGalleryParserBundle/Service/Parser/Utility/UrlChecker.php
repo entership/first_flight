@@ -29,7 +29,7 @@ class UrlChecker
 
     public function setUrl($url)
     {
-        $this->$url = $url;
+        $this->url = $url;
         $this->parseUrl();
         $this->resetUrlTypesResults();
     }
