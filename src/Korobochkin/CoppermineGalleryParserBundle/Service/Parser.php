@@ -30,7 +30,8 @@ class Parser
 
         // Ищем тип страницы по $url
         $urlChecker = new Parser\Utility\UrlChecker($url);
-        $urlType = $urlChecker->analyzeUrl();
+        $urlChecker->analyzeUrl();
+        $urlType = $urlChecker->getUrlType();
 
         // Запуск specificParser с $url и типом
     }
