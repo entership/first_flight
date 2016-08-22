@@ -8,11 +8,9 @@ use Symfony\Component\Validator\Exception\InvalidArgumentException;
 
 class UrlChecker
 {
-    private $url = null;
-
-    private $parsedUrl = null;
-
-    private $urlTypesResults = null;
+    private $url;
+    private $parsedUrl;
+    private $urlTypesResults;
 
     public function __construct($url){
         $this->setUrl($url);
