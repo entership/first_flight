@@ -10,7 +10,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  * Class LaunchParserCommand
  * @package Korobochkin\CoppermineGalleryParserBundle\Command
  */
-class LaunchParserCommand extends ContainerAwareCommand {
+class ParserCommand extends ContainerAwareCommand {
     public function configure()
     {
         $this
@@ -26,7 +26,7 @@ class LaunchParserCommand extends ContainerAwareCommand {
 
     public function execute(InputInterface $input, OutputInterface $output)
     {
-        $parser = $this->getContainer()->get('coppermine_parser.run');
+        $parser = $this->getContainer()->get('coppermine_parser');
         $parser->run($input->getArgument('url'));
     }
 }
