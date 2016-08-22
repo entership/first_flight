@@ -15,13 +15,12 @@ use Symfony\Component\Validator\Constraints\Url;
 class Parser
 {
     private $logger;
-
     private $guzzle;
 
-    public function __construct(Client $client, Logger $logger)
+    public function __construct(Client $guzzleClient, Logger $logger)
     {
         $this->logger = $logger;
-        $this->guzzle = $client;
+        $this->guzzle = $guzzleClient;
     }
 
     public function run($url)
